@@ -33,11 +33,11 @@ function MyApp({
         }}
       >
         <div>
-          <Typography variant="body1">Practice Problem</Typography>
+          <Typography variant="h6">Practice Problem</Typography>
         </div>
         <Box display="flex" alignItems="center">
-          <Typography variant="h6">
-            Color Scheme: <Typography component="span">{colorScheme}</Typography>
+          <Typography variant="body1">
+            Color Scheme: <Typography component="span">{colorScheme.toUpperCase()}</Typography>
           </Typography>
           <Switch
             onChange={() => {
