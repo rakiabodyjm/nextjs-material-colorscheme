@@ -28,11 +28,12 @@ export function getUsers() {
 }
 export function getUser() {}
 
-export function registerUser(params: UserRegisterParams) {
+export function registerUser(params) {
   return axios
     .post('/user', params)
     .then((res) => {
-      return res.data as UserResponse
+      console.log('NEWLY CREATED USER ', res?.data.message)
+      return res.data?.entity
     })
     .catch((err: AxiosError) => {
       throw err

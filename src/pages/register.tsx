@@ -8,9 +8,9 @@ import {
   Typography,
   useTheme,
 } from '@material-ui/core'
-import { registerUser, UserRegisterParams, UserResponse } from '@src/api/userApi'
-import { AxiosError } from 'axios'
-import { useState } from 'react'
+import { registerUser, User, UserRegisterParams, UserResponse } from '@src/api/userApi'
+import axios, { AxiosError } from 'axios'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
   paperContainer: {
@@ -33,11 +33,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 export default function RegisterUser() {
   const classes = useStyles()
+  const [errors, setErrors] = useState<string | undefined>()
   const [formValues, setFormValues] = useState<UserRegisterParams>({
     name: '',
     email: '',
     password: '',
   })
+  const [newlyCreatedUser, setNewlyCreatedUser] = useState<User | undefined>()
 
   const handleSubmit = () => {
     const { email, password, name } = formValues
@@ -50,19 +52,56 @@ export default function RegisterUser() {
         /**
          * do something with user response
          */
-        console.log(res)
+        // console.log(res)
+        setNewlyCreatedUser(res)
       })
       .catch((err: AxiosError) => {
         err.message
         console.error(err)
       })
+
+    // const { email, password, name } = formValues
+
+    // axios
+    //   .post('/user', {
+    //     email,
+    //     password,
+    //     name,
+    //   })
+    //   .then((res) => {
+    //     setNewlyCreatedUser(res.data.entity as User)
+    //   })
+    //   .catch((err) => {
+    //     console.error(err)
+    //   })
   }
+
+  useEffect(() => {
+    console.log('changes in newlyCreatedUser', newlyCreatedUser)
+  }, [newlyCreatedUser])
+  // const dataObject = { key: 'value', key2: 'value2' }
+  // Object.keys(dataObject)
+  // /**
+  //  * ['key', 'key2']
+  //  */
+
+  // Object.values(dataObject)
+  // /**
+  //  * ['value', 'value2']
+  //  */
+
+  // Object.entries(dataObject)
+  // /**
+  //  * [['key', 'value1'], ['key2', 'value2']]
+  //  */
+
   return (
     <div>
       <Paper className={classes.paperContainer} variant="outlined">
         <Typography variant="h3" className={classes.title}>
           User Registration
         </Typography>
+
         <Divider />
         {/*Instead of doing the one below, we can shortcut it to make it rendered from state values */}
         <Box className={classes.inputContainer}>
@@ -86,8 +125,8 @@ export default function RegisterUser() {
               />
             </div>
           ))}
-          {/* 
-          <div>
+
+          {/* <div>
             <Typography variant="body1">Name</Typography>
             <TextField fullWidth size="small" variant="outlined" />
           </div>
