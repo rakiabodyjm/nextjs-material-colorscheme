@@ -1,30 +1,9 @@
-import {
-  Typography,
-  Box,
-  hexToRgb,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  Table,
-  TableBody,
-  Paper,
-  makeStyles,
-  Button,
-  Divider,
-  TextField,
-  Input,
-  IconButton,
-  InputAdornment,
-  Link,
-} from '@material-ui/core'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import { Typography, Box, Paper, makeStyles, Button, Divider, TextField } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import axios, { AxiosError } from 'axios'
-import router, { useRouter } from 'next/router'
-import { updateUser, UserRegisterParams, UserResponse, UserUpdateParams } from '@src/api/userApi'
+import router from 'next/router'
+import { updateUser, UserRegisterParams, UserResponse } from '@src/api/userApi'
 
 const useStyles = makeStyles((theme) => ({
   paperContainer: {
@@ -56,9 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Id() {
-  const [showPassword, setShowPassword] = useState(false)
   const classes = useStyles()
-
   const { id } = router.query
   const { data: userData, error: userDataError } = useSWR<UserResponse>('/user/' + id, (url) =>
     axios.get(url).then((res) => res.data)
