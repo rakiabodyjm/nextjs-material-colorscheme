@@ -100,7 +100,7 @@ export default function EditUser() {
     <div>
       <Paper className={classes.paperContainer} variant="outlined">
         <Typography variant="h3" className={classes.title}>
-          Edit User Profile ({usersID})
+          Edit User Profile ({userData.name})
         </Typography>
         <Divider />
         {/*Instead of doing the one below, we can shortcut it to make it rendered from state values */}
