@@ -2,7 +2,7 @@ import { Typography, Box, Paper, makeStyles, Button, Divider, TextField } from '
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import axios, { AxiosError } from 'axios'
-import router from 'next/router'
+import router, { useRouter } from 'next/router'
 import { updateUser, UserRegisterParams, UserResponse } from '@src/api/userApi'
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Id() {
   const classes = useStyles()
+  const router = useRouter()
   const { id } = router.query
   const { data: userData, error: userDataError } = useSWR<UserResponse>('/user/' + id, (url) =>
     axios.get(url).then((res) => res.data)
@@ -90,6 +91,7 @@ export default function Id() {
           pathname: '/',
         })
       })
+    if (userDataError) return <div> Failed to load</div>
   }
 
   return (
