@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import { registerUser, User, UserRegisterParams, UserResponse } from '@src/api/userApi'
 import axios, { AxiosError } from 'axios'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 export default function RegisterUser() {
   const classes = useStyles()
+  const router = useRouter()
   const [errors, setErrors] = useState<string | undefined>()
   const [formValues, setFormValues] = useState<UserRegisterParams>({
     name: '',
@@ -74,6 +76,7 @@ export default function RegisterUser() {
     //   .catch((err) => {
     //     console.error(err)
     //   })
+    router.push('/home')
   }
 
   useEffect(() => {
