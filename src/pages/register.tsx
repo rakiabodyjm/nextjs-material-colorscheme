@@ -10,7 +10,9 @@ import {
 } from '@material-ui/core'
 import { registerUser, User, UserRegisterParams, UserResponse } from '@src/api/userApi'
 import axios, { AxiosError } from 'axios'
+import router from 'next/router'
 import { useEffect, useState } from 'react'
+import { useSWRConfig } from 'swr'
 
 const useStyles = makeStyles((theme) => ({
   paperContainer: {
@@ -39,7 +41,7 @@ export default function RegisterUser() {
     email: '',
     password: '',
   })
-  const [newlyCreatedUser, setNewlyCreatedUser] = useState<User | undefined>()
+  const [newlyCreatedUser, setNewlyCreatedUser] = useState<UserResponse | undefined>()
 
   const handleSubmit = () => {
     const { email, password, name } = formValues
@@ -54,9 +56,16 @@ export default function RegisterUser() {
          */
         // console.log(res)
         setNewlyCreatedUser(res)
+        alert('USER REGISTER SUCCESS')
+        setFormValues({
+          name: '',
+          email: '',
+          password: '',
+        })
       })
       .catch((err: AxiosError) => {
         err.message
+        alert('USER REGISTER FAILED')
         console.error(err)
       })
 
@@ -108,8 +117,10 @@ export default function RegisterUser() {
           {Object.entries(formValues).map(([key, value]) => (
             <div key={key}>
               <Typography variant="body1">
-                {key.charAt(0).toUpperCase() + key.slice(1)} :
+                {console.log(key)}
+                {key.charAt(0).toUpperCase() + key.slice(1)} : {/* N + ame  === JUST A COMMENT*/}
               </Typography>
+
               <TextField
                 {...(key === 'password' && { type: 'password' })}
                 fullWidth
