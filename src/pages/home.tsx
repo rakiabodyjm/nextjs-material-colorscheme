@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableCell,
+  makeStyles,
   TableRow,
   Link,
 } from '@material-ui/core'
@@ -17,8 +18,31 @@ import { useEffect, useState } from 'react'
 import useSWR, { mutate } from 'swr'
 import { useRouter } from 'next/router'
 
+const useStyles = makeStyles((theme) => ({
+  paperContainer: {
+    boxShadow: '1px 13px 15px black',
+    maxWidth: 600,
+    marginTop: theme.spacing(5),
+    margin: 'auto',
+    padding: theme.spacing(2),
+    '& > *:not(:last-child)': {
+      marginBottom: theme.spacing(2),
+    },
+  },
+  _textAlign: {
+    textAlign: 'center',
+  },
+  _textField: {
+    marginBottom: theme.spacing(3),
+  },
+  _deleteBtn: {
+    backgroundColor: 'red',
+  },
+}))
+
 export default function Home() {
   const router = useRouter()
+  const classes = useStyles()
   const { data, error } = useSWR<User[] | undefined>('/user', (url: string) =>
     axios(url).then((res) => res.data)
   )
@@ -68,8 +92,8 @@ export default function Home() {
   return (
     <div>
       <div className="headerHome">
-        <Typography>
-          <h2>Lists of Users</h2>
+        <Typography variant="h3" className={classes._textAlign}>
+          Lists of Users
         </Typography>
         <Button onClick={handleLogout} variant="contained" color="primary">
           Logout
@@ -86,7 +110,7 @@ export default function Home() {
       ))} */}
       <Paper>
         <TableContainer>
-          <Table>
+          <Table className="tableContainer" width="100%">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
